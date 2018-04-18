@@ -20,11 +20,23 @@ print(b)
 memberships = json.loads(requests.request("GET", "https://api.trello.com/1/boards/"+board_id+"/memberships", params=param).text)
 # https://api.trello.com/1/boards/id/cards
 cards = json.loads(requests.request("GET", "https://api.trello.com/1/boards/"+board_id+"/cards", params=param).text)
-print(cards)
+# print(cards)
 for card in cards:
+    print("-------------------------")
     print(card)
     c = json.loads(requests.request("GET", "https://api.trello.com/1/cards/"+card["id"], params=param).text)
-    print(c)
+    actions = json.loads(requests.request("GET", "https://api.trello.com/1/cards/"+card["id"]+"/actions", params=param).text)
+    print("Nom de la carte : ", c["name"])
+    print("Description : ", c["desc"])
+    # print("action : ", actions)
+    for action in actions:
+        print(action)
+        print("\ndata :", action["data"])
+        if "text" in action["data"]:
+            print("action : ", action["data"]["text"])
+            print("date : ", action["date"])
+        else:
+            print(action)
 # response = requests.request("GET", url, params=param)
 
 # print(response.text)
